@@ -3,7 +3,8 @@ import {db} from "./guitarras.js";
 console.log(db)
 //variables
 const container = document.querySelector("h2 div")
-const carrito = 
+const divCarrito = document.querySelector ("")
+const carrito = []
 
 //funciones
 db.forEach(guitar => {
@@ -33,14 +34,79 @@ function createCard(){
     return div
 }
 
+function drawCar(){
+    const div = document.createElement ("div")
+    if (carrito.length===0){
+        div.innerHTML = '<p class="text-center">El carrito esta vacio</p>'
+    } else {
+        let html = `<table class="w-100 table">
+                                <thead>
+                                    <tr>
+                                        <th>Imagen</th>
+                                        <th>Nombre</th>
+                                        <th>Precio</th>
+                                        <th>Cantidad</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>`
+        carrito.forEach(guitar => {
+            html += `<tr>
+                                        <td>
+                                            <img class="img-fluid" src="./public/img/guitarra_02.jpg" alt="imagen guitarra">
+                                        </td>
+                                        <td>SRV</td>
+                                        <td class="fw-bold">
+                                                $299
+                                        </td>
+                                        <td class="flex align-items-start gap-4">
+                                            <button
+                                                type="button"
+                                                class="btn btn-dark"
+                                            >
+                                                -
+                                            </button>
+                                                1
+                                            <button
+                                                type="button"
+                                                class="btn btn-dark"
+                                            >
+                                                +
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button
+                                                class="btn btn-danger"
+                                                type="button"
+                                            >
+                                                X
+                                            </button>
+                                        </td>
+                                    </tr>`
+        })
+        html += `</tbody>
+                            </table>
+                            <p class="text-end">Total pagar: <span class="fw-bold">$899</span></p>
+                            <button class="btn btn-dark w-100 mt-3 p-2">Vaciar Carrito</button>`
+        div.innerHTML = html
+    }
+    divCarrito.innerHTML = ''
+    divCarrito.appendChild
+}
+
 function getGuitar(e){
     if (e.target.classList.contains (btn))// muestra las clases que tiene el objeto
     {
-        const id = e.target.getAttribute("data-id")//optemos el id del elemnto 
+        const id = e.target.getAttribute("data-id")//optenemos el id del elemnto 
         //console.log("Botón", id)
         const idSelected =db.findIndex(g => g.id === Number(id))
-        carrito.push([...db[idSelected]])
-        console.log(carrito)
+        const idInCart = carrito.findIndex(gIncart => gIncart.id === Number(id))
+        if(idInCart === -1){
+            carrito.push({...db[idSelected], cantidad: 1 })
+        } else{
+            carrito[idInCart].cantidad++ 
+        }
+        drawCar()
         //ver en gemini todo
     }
 }
