@@ -11,6 +11,17 @@ db.forEach(guitar => {
     container.appendChild(createCard(guitar))
 
 })
+function readStorage (){
+    const data = localStorage.getItem('carrito')
+    carrito =data? JSON.parse(data): [] 
+}
+
+function writeStorage(){
+    localStorage.setItem('carrito', JSON.stringify(carrito))
+}
+
+readStorage()
+drawCar()
 
 function createCard(){
     const div  = document.createElement("div")
@@ -53,11 +64,11 @@ function drawCar(){
         carrito.forEach(guitar => {
             html += `<tr>
                                         <td>
-                                            <img class="img-fluid" src="./public/img/guitarra_02.jpg" alt="imagen guitarra">
+                                            <img class="img-fluid" src="./public/img${guitar.imagen}.jpg" alt="imagen guitarra">
                                         </td>
-                                        <td>SRV</td>
+                                        <td>${guitar.nombre}</td>
                                         <td class="fw-bold">
-                                                $299
+                                                $${guitar.precio}
                                         </td>
                                         <td class="flex align-items-start gap-4">
                                             <button
@@ -66,6 +77,7 @@ function drawCar(){
                                             >
                                                 -
                                             </button>
+                                            ${guitar.cantidad}
                                                 1
                                             <button
                                                 type="button"
